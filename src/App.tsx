@@ -3,7 +3,8 @@ import { AuthProvider } from './contexts/AuthContext';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Admin } from './pages/Admin';
-import { ForecastPage } from './pages/ForecastPage'; // Importar ForecastPage
+import { ForecastPage } from './pages/ForecastPage';
+import { MapaChuvasRS } from './pages/MapaChuvasRS';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
@@ -13,7 +14,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/forecast/:city" element={<ForecastPage />} /> {/* Nova rota */}
+          <Route path="/mapa-chuvas-rs" element={<MapaChuvasRS />} />
+          <Route path="/forecast/:city" element={<ForecastPage />} />
           <Route
             path="/admin"
             element={

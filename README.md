@@ -43,19 +43,31 @@ O Firebase já está configurado no projeto. Para criar um usuário administrado
 4. Clique em "Add user"
 5. Adicione email e senha para o administrador
 
-### 2. Instalar Dependências
+### 2. Mapa de Chuvas – RS (opcional)
+
+Para a camada de precipitação no mapa, crie um arquivo `.env` na raiz com:
+
+```
+VITE_OPENWEATHER_API_KEY=sua_chave_openweather
+```
+
+Use como referência o arquivo `.env.example`. A chave pode ser obtida em [OpenWeather](https://openweathermap.org/api).
+
+### 3. Instalar Dependências
 
 ```bash
 npm install
 ```
 
-### 3. Executar em Desenvolvimento
+Dependências do mapa: `leaflet`, `react-leaflet` (já listadas no `package.json`).
+
+### 4. Executar em Desenvolvimento
 
 ```bash
 npm run dev
 ```
 
-### 4. Build para Produção
+### 5. Build para Produção
 
 ```bash
 npm run build
@@ -87,6 +99,8 @@ src/
 ## Rotas
 
 - `/` - Página pública com lista de informativos
+- `/mapa-chuvas-rs` - Mapa de Chuvas – RS (Leaflet + OpenWeather Precipitation Layer)
+- `/forecast/:city` - Previsão diária por cidade
 - `/login` - Página de login para administradores
 - `/admin` - Painel administrativo (requer autenticação)
 
