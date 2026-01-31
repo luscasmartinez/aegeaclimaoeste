@@ -5,6 +5,7 @@ import { Login } from './pages/Login';
 import { Admin } from './pages/Admin';
 import { ForecastPage } from './pages/ForecastPage';
 import { MapaChuvasRS } from './pages/MapaChuvasRS';
+import { CalendarioFeriados } from './pages/CalendarioFeriados';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/mapa-chuvas-rs" element={<MapaChuvasRS />} />
+          <Route path="/calendario-feriados" element={<CalendarioFeriados />} />
           <Route path="/forecast/:city" element={<ForecastPage />} />
           <Route
             path="/admin"

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Cloud, LogOut, Shield, Map } from 'lucide-react';
+import { Cloud, LogOut, Shield, Map, Calendar } from 'lucide-react';
 
 export function Navbar() {
   const { user, logout } = useAuth();
@@ -27,6 +27,13 @@ export function Navbar() {
             >
               <Map className="w-5 h-5" />
               <span className="hidden sm:inline">Mapa Chuvas RS</span>
+            </Link>
+            <Link
+              to="/calendario-feriados"
+              className="flex items-center space-x-2 px-3 py-2 text-gray-700 hover:bg-blue-50 rounded-lg transition"
+            >
+              <Calendar className="w-5 h-5" />
+              <span className="hidden sm:inline">Calendário</span>
             </Link>
             {user ? (
               <>
