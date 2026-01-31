@@ -49,8 +49,8 @@ export function Home() {
       try {
         const data = await fetchWeatherByCity(city);
         fetchedData.push(data);
-      } catch (error: any) {
-        console.error(`Erro ao buscar clima para ${city}:`, error);
+      } catch {
+        // Cidade não encontrada na API ou fora do Brasil; omitida da lista (sem poluir o console).
       }
     }
     setDisplayedCitiesWeather(fetchedData);
@@ -163,9 +163,9 @@ export function Home() {
           </div>
         ) : filteredCitiesWeather.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-            {filteredCitiesWeather.map((weather) => (
+            {filteredCitiesWeather.map((weather, index) => (
               <WeatherCard
-                key={weather.id}
+                key={`${weather.name}-${weather.coord?.lat ?? ''}-${weather.coord?.lon ?? ''}-${index}`}
                 weather={weather}
               />
             ))}
