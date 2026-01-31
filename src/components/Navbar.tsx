@@ -17,7 +17,7 @@ export function Navbar() {
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 transition">
             <Cloud className="w-8 h-8" />
-            <span className="font-bold text-xl">MeteoInfo</span>
+            <span className="font-bold text-xl">Clima Oeste</span>
           </Link>
 
           <div className="flex items-center space-x-2 md:space-x-4">
