@@ -6,8 +6,8 @@ import { WeatherCard } from '../components/WeatherCard';
 import { Navbar } from '../components/Navbar';
 import { CloudRain } from 'lucide-react';
 import { WeatherSearch } from '../components/WeatherSearch'; // Importar WeatherSearch
-import { fetchWeatherByCity } from '../services/weatherService'; // Importar o serviço
-import { ALLOWED_CITIES } from '../config/cities';
+import { fetchWeatherByCity } from '../services/weatherService';
+import { ALLOWED_CITIES, MACRO_REGION_OPTIONS, getMacroRegionForCity } from '../config/cities';
 
 export function Home() {
   const [firebaseWeatherData, setFirebaseWeatherData] = useState<WeatherInfo[]>([]);
@@ -20,21 +20,7 @@ export function Home() {
   const [searchError, setSearchError] = useState<string | null>(null);
 
   const [loadingFirebase, setLoadingFirebase] = useState(true);
-  const [filterTerm, setFilterTerm] = useState('Todos'); // Valor inicial como 'Todos' para não filtrar
-
-  // Opções de filtro para o dropdown
-  const filterOptions = [
-    { value: 'Todos', label: 'Todas as Condições' },
-    { value: 'Clear', label: 'Céu Limpo' },
-    { value: 'Clouds', label: 'Nublado' },
-    { value: 'Rain', label: 'Chuva' },
-    { value: 'Drizzle', label: 'Chuvisco' },
-    { value: 'Thunderstorm', label: 'Tempestade' },
-    { value: 'Snow', label: 'Neve' },
-    { value: 'Mist', label: 'Névoa' },
-    { value: 'Fog', label: 'Nevoeiro' },
-    { value: 'Haze', label: 'Neblina' },
-  ];
+  const [filterMacro, setFilterMacro] = useState<string>('all');
 
   useEffect(() => {
     fetchFirebaseWeatherData();
@@ -95,13 +81,10 @@ export function Home() {
     }
   };
 
-  // Lógica de filtro ajustada para o dropdown
-  const filteredCitiesWeather = displayedCitiesWeather.filter(weather => {
-    if (filterTerm === 'Todos') {
-      return true;
-    }
-    return weather.weather && weather.weather.length > 0 &&
-           weather.weather[0].main.toLowerCase() === filterTerm.toLowerCase();
+  const filteredCitiesWeather = displayedCitiesWeather.filter((weather) => {
+    if (filterMacro === 'all') return true;
+    const macro = getMacroRegionForCity(weather.name);
+    return macro === filterMacro;
   });
 
   return (
@@ -123,10 +106,10 @@ export function Home() {
           <div className="flex justify-center mb-8">
             <select
               className="p-2 border border-gray-300 rounded-md w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={filterTerm}
-              onChange={(e) => setFilterTerm(e.target.value)}
+              value={filterMacro}
+              onChange={(e) => setFilterMacro(e.target.value)}
             >
-              {filterOptions.map(option => (
+              {MACRO_REGION_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
@@ -173,7 +156,7 @@ export function Home() {
         ) : (
           <div className="text-center py-20">
             <CloudRain className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500 text-xl">Nenhum dado de clima disponível para as cidades ou nenhum resultado para o filtro.</p>
+            <p className="text-gray-500 text-xl">Nenhum dado de clima disponível ou nenhuma cidade nesta macro-região.</p>
           </div>
         )}
       </div>

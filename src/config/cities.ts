@@ -87,3 +87,95 @@ export function getCoordinatesForCity(cityName: string): { lat: number; lon: num
   const key = cityName.trim().toUpperCase();
   return CITY_COORDINATES[key];
 }
+
+/** Normaliza nome da cidade para comparação (maiúsculas, sem acentos). */
+function normalizeCityName(name: string): string {
+  return name
+    .trim()
+    .toUpperCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/Ç/g, 'C');
+}
+
+/**
+ * Macro-regiões do RS. Chave = cidade normalizada, valor = código da macro.
+ * GO1 - Alegrete | GO2 - Santo Ângelo | GO3 - Santa Rosa
+ */
+export const CITY_TO_MACRO_REGION: Record<string, string> = {
+  ALEGRETE: 'GO1',
+  CACEQUI: 'GO1',
+  'DOM PEDRITO': 'GO1',
+  ITAQUI: 'GO1',
+  'MANOEL VIANA': 'GO1',
+  QUARAI: 'GO1',
+  'ROSARIO DO SUL': 'GO1',
+  'SAO BORJA': 'GO1',
+  'SAO VICENTE DO SUL': 'GO1',
+  MACAMBARA: 'GO1',
+  'BARRA DO QUARAI': 'GO1',
+  BOSSOROCA: 'GO2',
+  CAIBATE: 'GO2',
+  'CAMPINA DAS MISSOES': 'GO2',
+  'CANDIDO GODOY': 'GO2',
+  'CERRO LARGO': 'GO2',
+  'GUARANI DAS MISSOES': 'GO2',
+  JAGUARI: 'GO2',
+  'PORTO LUCENA': 'GO2',
+  'PORTO XAVIER': 'GO2',
+  SANTIAGO: 'GO2',
+  'SANTO ANGELO': 'GO2',
+  'SANTO ANTONIO DAS MISSOES': 'GO2',
+  'SAO FRANCISCO DE ASSIS': 'GO2',
+  'SAO LUIZ GONZAGA': 'GO2',
+  'SAO NICOLAU': 'GO2',
+  'ENTRE IJUIS': 'GO2',
+  'NOVA ESPERANCA DO SUL': 'GO2',
+  'SAO MIGUEL DAS MISSOES': 'GO2',
+  ALECRIM: 'GO3',
+  'BOA VISTA DO BURICA': 'GO3',
+  BRAGA: 'GO3',
+  'CAMPO NOVO': 'GO3',
+  CHIAPETTA: 'GO3',
+  'CORONEL BICACO': 'GO3',
+  CRISSIUMAL: 'GO3',
+  GIRUA: 'GO3',
+  HORIZONTINA: 'GO3',
+  HUMAITA: 'GO3',
+  MIRAGUAI: 'GO3',
+  REDENTORA: 'GO3',
+  'SANTA ROSA': 'GO3',
+  'SANTO AUGUSTO': 'GO3',
+  'SANTO CRISTO': 'GO3',
+  'SAO MARTINHO': 'GO3',
+  'TENENTE PORTELA': 'GO3',
+  'TRES DE MAIO': 'GO3',
+  'TRES PASSOS': 'GO3',
+  TUCUNDUVA: 'GO3',
+  TUPARENDI: 'GO3',
+  INDEPENDENCIA: 'GO3',
+  'MAURICIO CARDOSO': 'GO3',
+  'SEDE NOVA': 'GO3',
+  'VISTA GAUCHA': 'GO3',
+  'BARRA DO GUARITA': 'GO3',
+  'TIRADENTES DO SUL': 'GO3',
+  INHACORA: 'GO3',
+  DERRUBADAS: 'GO3',
+  'SAO JOSE DO INHACORA': 'GO3',
+  'BOM PROGRESSO': 'GO3',
+  UNISTALDA: 'GO3',
+};
+
+/** Opções de filtro por macro-região para o dropdown. */
+export const MACRO_REGION_OPTIONS = [
+  { value: 'all', label: 'Todas as regiões' },
+  { value: 'GO1', label: 'GO1 - Alegrete' },
+  { value: 'GO2', label: 'GO2 - Santo Ângelo' },
+  { value: 'GO3', label: 'GO3 - Santa Rosa' },
+] as const;
+
+/** Retorna o código da macro-região da cidade (GO1, GO2, GO3) ou undefined. */
+export function getMacroRegionForCity(cityName: string): string | undefined {
+  const key = normalizeCityName(cityName);
+  return CITY_TO_MACRO_REGION[key];
+}
