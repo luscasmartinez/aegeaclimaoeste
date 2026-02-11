@@ -18,6 +18,7 @@ function formatCityName(name: string): string {
     Independencia: 'Independência', Mauricio: 'Maurício',
     Inhacora: 'Inhacorá', Macambara: 'Maçambará', Humaita: 'Humaitá',
     Girua: 'Giruá', Quarai: 'Quaraí', Rosario: 'Rosário',
+    Camara: 'Câmara', Teutonia: 'Teutônia', Portao: 'Portão', Goncalves: 'Gonçalves',
   };
   return Object.entries(map).reduce((s, [k, v]) => s.replace(k, v), lower);
 }
@@ -48,7 +49,8 @@ export function CalendarioFeriados() {
           const key = h.date;
           if (!byDate.has(key)) byDate.set(key, []);
           const arr = byDate.get(key)!;
-          if (!arr.some((x) => x.title === h.title && x.type === h.type)) {
+          const cityKey = h.city ?? '';
+          if (!arr.some((x) => x.title === h.title && x.type === h.type && (x.city ?? '') === cityKey)) {
             arr.push(h);
           }
         });
@@ -140,22 +142,39 @@ export function CalendarioFeriados() {
             </div>
           ) : (
             <div className="divide-y divide-gray-100">
-              {groupedByMonth.map(({ month, list }) => (
+              {groupedByMonth.map(({ month, list }, groupIndex) => (
                 <div key={month} className="p-6">
                   <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
                     <Calendar className="w-5 h-5 text-blue-600" />
                     {month}
                   </h2>
+                  {groupIndex === 0 && selectedCity === 'all' && (
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 py-2 mb-1 text-xs font-medium text-gray-500 uppercase tracking-wide border-b border-gray-100">
+                      <span className="w-14 shrink-0">Data</span>
+                      <span className="flex-1 min-w-0">Nome</span>
+                      <span className="shrink-0 w-24 sm:w-32">Onde é feriado</span>
+                      <span className="shrink-0 w-20">Tipo</span>
+                    </div>
+                  )}
                   <ul className="space-y-3">
                     {list.map((h, i) => (
                       <li
-                        key={`${h.date}-${h.title}-${i}`}
+                        key={`${h.date}-${h.title}-${h.city ?? ''}-${i}`}
                         className="flex flex-wrap items-center gap-2 sm:gap-4 py-2 border-b border-gray-50 last:border-0"
                       >
-                        <span className="font-mono font-semibold text-gray-700 w-14">
+                        <span className="font-mono font-semibold text-gray-700 w-14 shrink-0">
                           {h.date}
                         </span>
-                        <span className="text-gray-800 flex-1">{h.title}</span>
+                        <span className="text-gray-800 flex-1 min-w-0">{h.title}</span>
+                        <span className="text-gray-600 text-sm shrink-0" title="Onde é feriado">
+                          {h.type === 'nacional'
+                            ? 'Brasil'
+                            : h.type === 'estadual'
+                              ? 'RS'
+                              : h.city
+                                ? formatCityName(h.city)
+                                : '—'}
+                        </span>
                         <HolidayBadge type={h.type} />
                       </li>
                     ))}

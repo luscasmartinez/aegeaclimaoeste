@@ -89,3 +89,22 @@ export interface DailyForecast {
     snow?: number;
   }>;
 }
+
+/** Item de feriado da API feriados.dev (https://api.feriados.dev) */
+export interface FeriadosDevHolidayItem {
+  id?: string;
+  name: string;
+  date: string; // YYYY-MM-DD
+  type: 'national' | 'state' | 'municipal';
+  state?: string;
+  city?: string;
+  description?: string;
+}
+
+/** Resposta da API feriados.dev (success + data) */
+export interface FeriadosDevResponse {
+  success: boolean;
+  data?: FeriadosDevHolidayItem[];
+  message?: string;
+  error?: { code?: string; message?: string };
+}
