@@ -1,4 +1,4 @@
-import { Thermometer, Droplet, Wind, Sunrise, Sunset, Gauge } from 'lucide-react';
+import { Thermometer, Droplet, Wind, Sunrise, Sunset, Gauge, CloudRain } from 'lucide-react';
 import { WeatherInfo } from '../types';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,6 +21,9 @@ export function WeatherCard({ weather }: WeatherCardProps) {
   const weatherIconUrl = `https://openweathermap.org/img/w/${weatherIcon.icon}.png`;
   const sunriseTime = new Date(weather.sys.sunrise * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   const sunsetTime = new Date(weather.sys.sunset * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const rainMm = weather.rain?.['1h'] ?? weather.rain?.['3h'] ?? null;
+  const snowMm = weather.snow?.['1h'] ?? weather.snow?.['3h'] ?? null;
+  const precipLabel = rainMm != null ? `Chuva: ${rainMm} mm` : snowMm != null ? `Neve: ${snowMm} mm` : 'Chuva: —';
 
   const handleCardClick = () => {
     navigate(`/forecast/${weather.name}`);
@@ -51,6 +54,10 @@ export function WeatherCard({ weather }: WeatherCardProps) {
           <div className="flex items-center space-x-2">
             <Droplet className="w-5 h-5 text-blue-500" />
             <span>Umidade: {weather.main.humidity}%</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <CloudRain className="w-5 h-5 text-blue-500" />
+            <span>{precipLabel}</span>
           </div>
           <div className="flex items-center space-x-2">
             <Wind className="w-5 h-5 text-gray-500" />

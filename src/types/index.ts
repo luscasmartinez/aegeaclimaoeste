@@ -26,6 +26,10 @@ export interface WeatherInfo {
   clouds: {
     all: number;
   };
+  /** Chuva (mm) – 1h ou 3h; presente quando há precipitação. */
+  rain?: { '1h'?: number; '3h'?: number };
+  /** Neve (mm) – 1h ou 3h; presente quando há precipitação. */
+  snow?: { '1h'?: number; '3h'?: number };
   dt: number;
   sys: {
     type: number;
