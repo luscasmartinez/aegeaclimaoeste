@@ -38,6 +38,7 @@ export interface MonthlyData {
 }
 
 export interface YearlyStats {
+  year: number;
   monthlyData: MonthlyData[];
   hottestMonth: MonthlyData;
   coldestMonth: MonthlyData;
@@ -66,18 +67,22 @@ export async function searchCities(query: string): Promise<CityLocation[]> {
   }));
 }
 
-/** Busca dados climáticos históricos diários para 2025 (Open-Meteo Archive). */
-export async function fetchArchive2025(
+/** Busca dados climáticos históricos diários para um ano específico (Open-Meteo Archive). */
+export async function fetchArchiveYear(
   latitude: number,
   longitude: number,
-  timezone: string
+  timezone: string,
+  year: number
 ): Promise<YearlyStats> {
+  const startDate = `${year}-01-01`;
+  const endDate = `${year}-12-31`;
+  
   const params = new URLSearchParams({
     latitude: String(latitude),
     longitude: String(longitude),
-    start_date: '2025-01-01',
-    end_date: '2025-12-31',
-    timezone: timezone || 'UTC',
+    start_date: startDate,
+    end_date: endDate,
+    timezone: timezone || 'auto',
     daily: 'temperature_2m_max,temperature_2m_min,precipitation_sum',
     temperature_unit: 'celsius',
     precipitation_unit: 'mm',
@@ -163,10 +168,20 @@ export async function fetchArchive2025(
   const totalPrecipitation = monthlyData.reduce((s, d) => s + d.precipitation, 0);
 
   return {
+    year,
     monthlyData,
     hottestMonth,
     coldestMonth,
     rainiestMonth,
     totalPrecipitation: Math.round(totalPrecipitation * 10) / 10,
   };
+}
+
+/** Busca dados climáticos históricos diários para 2025 (Open-Meteo Archive). */
+export async function fetchArchive2025(
+  latitude: number,
+  longitude: number,
+  timezone: string
+): Promise<YearlyStats> {
+  return fetchArchiveYear(latitude, longitude, timezone, 2025);
 }

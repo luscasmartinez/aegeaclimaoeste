@@ -34,8 +34,8 @@ export function RainfallChart({ data }: RainfallChartProps) {
             <Tooltip
               contentStyle={{ borderRadius: '12px', border: '1px solid #e5e7eb' }}
               formatter={(value: number, name: string) => [
-                name === 'Precipitação (mm)' ? `${value} mm` : `${value} dias`,
-                name === 'Precipitação (mm)' ? 'Precipitação' : 'Dias com chuva',
+                name === 'Precipitação (mm)' ? `${value} mm` : `${value} mm`,
+                name === 'Precipitação (mm)' ? 'Precipitação' : 'Quantidade de Chuva',
               ]}
               labelFormatter={(label) => `Mês: ${label}`}
             />

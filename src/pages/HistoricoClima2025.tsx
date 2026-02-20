@@ -1,7 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Navbar } from '../components/Navbar';
 import {
   SearchBar,
+  YearSelector,
   CityInfo,
   TemperatureChart,
   RainfallChart,
@@ -9,28 +10,31 @@ import {
   LoadingIndicator,
   ErrorMessage,
 } from '../components/historico2025';
-import { fetchArchive2025 } from '../services/openMeteoService';
+import { fetchArchiveYear } from '../services/openMeteoService';
 import type { CityLocation, YearlyStats } from '../services/openMeteoService';
 import { BarChart3 } from 'lucide-react';
 
-const YEAR = 2025;
+const DEFAULT_YEAR = 2025;
+const MIN_YEAR = 1940;
+const MAX_YEAR = 2026;
 
 export function HistoricoClima2025() {
   const [city, setCity] = useState<CityLocation | null>(null);
+  const [year, setYear] = useState<number>(DEFAULT_YEAR);
   const [stats, setStats] = useState<YearlyStats | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const loadWeather = useCallback(async (selectedCity: CityLocation) => {
-    setCity(selectedCity);
+  const loadWeather = useCallback(async (selectedCity: CityLocation, selectedYear: number) => {
     setError(null);
     setStats(null);
     setLoading(true);
     try {
-      const data = await fetchArchive2025(
+      const data = await fetchArchiveYear(
         selectedCity.latitude,
         selectedCity.longitude,
-        selectedCity.timezone
+        selectedCity.timezone,
+        selectedYear
       );
       setStats(data);
     } catch (e) {
@@ -42,8 +46,18 @@ export function HistoricoClima2025() {
 
   const handleRetry = () => {
     setError(null);
-    if (city) loadWeather(city);
+    if (city) loadWeather(city, year);
   };
+
+  const handleCitySelect = (selectedCity: CityLocation) => {
+    setCity(selectedCity);
+  };
+
+  useEffect(() => {
+    if (city) {
+      loadWeather(city, year);
+    }
+  }, [city, year, loadWeather]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50">
@@ -54,17 +68,24 @@ export function HistoricoClima2025() {
           <div className="flex items-center justify-center gap-3 mb-3">
             <BarChart3 className="w-10 h-10 text-blue-600" />
             <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
-              Histórico Climático {YEAR}
+              Histórico Climático
             </h1>
           </div>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Consulte dados climáticos históricos de qualquer cidade para o ano de {YEAR}, com
+            Consulte dados climáticos históricos de qualquer cidade para o ano selecionado, com
             gráficos comparativos mês a mês. Dados via Open-Meteo (API gratuita).
           </p>
         </div>
 
-        <div className="max-w-2xl mx-auto mb-10">
-          <SearchBar onSelectCity={loadWeather} disabled={loading} />
+        <div className="max-w-2xl mx-auto mb-6 space-y-4">
+          <SearchBar onSelectCity={handleCitySelect} disabled={loading} />
+          <YearSelector
+            value={year}
+            onChange={setYear}
+            disabled={loading}
+            minYear={MIN_YEAR}
+            maxYear={MAX_YEAR}
+          />
         </div>
 
         {loading && <LoadingIndicator />}
@@ -73,10 +94,12 @@ export function HistoricoClima2025() {
 
         {!loading && !error && city && stats && (
           <div className="space-y-8">
-            <CityInfo city={city} year={YEAR} />
+            <CityInfo city={city} year={stats.year} />
 
             <section>
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">Resumo do ano</h2>
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                Resumo do ano {stats.year}
+              </h2>
               <StatsCards stats={stats} />
             </section>
 
@@ -90,7 +113,9 @@ export function HistoricoClima2025() {
         {!loading && !error && !city && (
           <div className="text-center py-16 text-gray-500">
             <BarChart3 className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-            <p className="text-lg">Digite o nome de uma cidade e clique em Buscar para ver o histórico de {YEAR}.</p>
+            <p className="text-lg">
+              Digite o nome de uma cidade, selecione o ano e os dados serão carregados automaticamente.
+            </p>
           </div>
         )}
       </div>

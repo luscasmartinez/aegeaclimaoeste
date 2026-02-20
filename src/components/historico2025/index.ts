@@ -1,4 +1,5 @@
 export { SearchBar } from './SearchBar';
+export { YearSelector } from './YearSelector';
 export { CityInfo } from './CityInfo';
 export { TemperatureChart } from './TemperatureChart';
 export { RainfallChart } from './RainfallChart';
