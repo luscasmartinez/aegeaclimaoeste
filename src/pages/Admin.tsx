@@ -118,17 +118,17 @@ export function Admin() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors">
       <Navbar />
 
       <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 md:p-8 mb-8 animate-fade-in-up">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold text-gray-800">Painel Administrativo</h1>
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">Painel Administrativo</h1>
             {!showForm && (
               <button
                 onClick={() => setShowForm(true)}
-                className="flex items-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
+                className="flex items-center space-x-2 bg-blue-600 dark:bg-blue-500 text-white px-6 py-3 rounded-2xl hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
               >
                 <Plus className="w-5 h-5" />
                 <span>Novo Informativo</span>
@@ -137,14 +137,14 @@ export function Admin() {
           </div>
 
           {showForm && (
-            <form onSubmit={handleSubmit} className="bg-blue-50 rounded-xl p-6 mb-8 border border-blue-200">
-              <h2 className="text-xl font-semibold text-gray-800 mb-6">
+            <form onSubmit={handleSubmit} className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-6 mb-8 border border-blue-200 dark:border-blue-800 animate-fade-in-up">
+              <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-6">
                 {editingId ? 'Editar Informativo' : 'Criar Novo Informativo'}
               </h2>
 
               <div className="space-y-4">
                 <div>
-                  <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
+                  <label className="flex items-center space-x-2 text-slate-700 dark:text-slate-300 font-medium mb-2">
                     <Calendar className="w-5 h-5" />
                     <span>Data</span>
                   </label>
@@ -152,21 +152,21 @@ export function Admin() {
                     type="text"
                     value={formData.data}
                     onChange={(e) => setFormData({ ...formData, data: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-2xl bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none transition-colors"
                     placeholder="Ex: 05/02/2026"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
+                  <label className="flex items-center space-x-2 text-slate-700 dark:text-slate-300 font-medium mb-2">
                     <FileText className="w-5 h-5" />
                     <span>Descrição</span>
                   </label>
                   <textarea
                     value={formData.descricao}
                     onChange={(e) => setFormData({ ...formData, descricao: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-2xl bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none transition-colors"
                     placeholder="Descrição detalhada das condições meteorológicas"
                     rows={4}
                     required
@@ -174,7 +174,7 @@ export function Admin() {
                 </div>
 
                 <div>
-                  <label className="flex items-center space-x-2 text-gray-700 font-medium mb-2">
+                  <label className="flex items-center space-x-2 text-slate-700 dark:text-slate-300 font-medium mb-2">
                     <Image className="w-5 h-5" />
                     <span>Imagens (Imgur)</span>
                   </label>
@@ -185,14 +185,14 @@ export function Admin() {
                           type="url"
                           value={url}
                           onChange={(e) => updateImageUrl(index, e.target.value)}
-                          className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="flex-1 px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-2xl bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none transition-colors"
                           placeholder={`Imagem ${index + 1}: https://i.imgur.com/...`}
                         />
                         {formData.imagensUrl.length > 1 && (
                           <button
                             type="button"
                             onClick={() => removeImageInput(index)}
-                            className="p-3 text-red-600 hover:bg-red-50 rounded-lg transition"
+                            className="p-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-2xl transition-colors"
                           >
                             <X className="w-5 h-5" />
                           </button>
@@ -203,7 +203,7 @@ export function Admin() {
                   <button
                     type="button"
                     onClick={addImageInput}
-                    className="mt-3 w-full px-4 py-2 border-2 border-dashed border-blue-300 text-blue-600 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition font-medium flex items-center justify-center gap-2"
+                    className="mt-3 w-full px-4 py-2 border-2 border-dashed border-blue-300 dark:border-blue-600 text-blue-600 dark:text-blue-400 rounded-2xl hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors font-medium flex items-center justify-center gap-2"
                   >
                     <Plus className="w-4 h-4" />
                     Adicionar outra imagem
@@ -214,14 +214,14 @@ export function Admin() {
               <div className="flex space-x-4 mt-6">
                 <button
                   type="submit"
-                  className="flex-1 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+                  className="flex-1 bg-blue-600 dark:bg-blue-500 text-white py-3 rounded-2xl font-semibold hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
                 >
                   {editingId ? 'Atualizar' : 'Criar'}
                 </button>
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition"
+                  className="flex-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 py-3 rounded-2xl font-semibold hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
                 >
                   Cancelar
                 </button>
@@ -230,54 +230,57 @@ export function Admin() {
           )}
 
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">Informativos Cadastrados</h2>
+            <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-4">Informativos Cadastrados</h2>
             {weatherData.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">Nenhum informativo cadastrado</p>
+              <p className="text-slate-500 dark:text-slate-400 text-center py-8">Nenhum informativo cadastrado</p>
             ) : (
-              weatherData.map((weather) => (
-                <div
-                  key={weather.id}
-                  className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition"
-                >
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-2 text-blue-600 mb-2">
-                        <Calendar className="w-5 h-5" />
-                        <span className="font-semibold text-lg">{weather.data}</span>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {weatherData.map((weather, index) => (
+                  <div
+                    key={weather.id}
+                    className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 hover:shadow-md transition-all duration-200 animate-fade-in-up"
+                    style={{ animationDelay: `${0.1 * (index % 8)}s` }}
+                  >
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 mb-2">
+                          <Calendar className="w-5 h-5" />
+                          <span className="font-semibold text-lg">{weather.data}</span>
+                        </div>
+                        <p className="text-slate-700 dark:text-slate-300 mb-3">{weather.descricao}</p>
+                        <div className="flex flex-wrap gap-2">
+                          {weather.imagensUrl.map((imageUrl, idx) => (
+                            <a
+                              key={idx}
+                              href={imageUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center space-x-1"
+                            >
+                              <Image className="w-4 h-4" />
+                              <span>Imagem {idx + 1}</span>
+                            </a>
+                          ))}
+                        </div>
                       </div>
-                      <p className="text-gray-700 mb-3">{weather.descricao}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {weather.imagensUrl.map((imageUrl, idx) => (
-                          <a
-                            key={idx}
-                            href={imageUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline text-sm flex items-center space-x-1"
-                          >
-                            <Image className="w-4 h-4" />
-                            <span>Imagem {idx + 1}</span>
-                          </a>
-                        ))}
+                      <div className="flex space-x-2 ml-4">
+                        <button
+                          onClick={() => handleEdit(weather)}
+                          className="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-colors"
+                        >
+                          <Edit2 className="w-5 h-5" />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(weather.id)}
+                          className="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
+                        >
+                          <Trash2 className="w-5 h-5" />
+                        </button>
                       </div>
-                    </div>
-                    <div className="flex space-x-2 ml-4">
-                      <button
-                        onClick={() => handleEdit(weather)}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
-                      >
-                        <Edit2 className="w-5 h-5" />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(weather.id)}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
-                      >
-                        <Trash2 className="w-5 h-5" />
-                      </button>
                     </div>
                   </div>
-                </div>
-              ))
+                ))}
+              </div>
             )}
           </div>
         </div>

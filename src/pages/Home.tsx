@@ -88,24 +88,26 @@ export function Home() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors">
       <Navbar />
 
-      <div className="container mx-auto px-4 py-12">
-        <div className="text-center mb-12">
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center mb-10 animate-fade-in-up">
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <CloudRain className="w-12 h-12 text-blue-600" />
-            <h1 className="text-5xl font-bold text-gray-800">Informativos Meteorológicos</h1>
+            <CloudRain className="w-12 h-12 text-blue-600 dark:text-blue-400" />
+            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-100">Informativos Meteorológicos</h1>
           </div>
-          <p className="text-gray-600 text-lg">Acompanhe as previsões e análises do tempo</p>
+          <p className="text-slate-600 dark:text-slate-400 text-lg">Acompanhe as previsões e análises do tempo</p>
         </div>
 
-        <WeatherSearch onSearch={handleSearchWeather} />
+        <div className="mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+          <WeatherSearch onSearch={handleSearchWeather} />
+        </div>
 
         {!searchLoading && !searchError && (
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <select
-              className="p-2 border border-gray-300 rounded-md w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-2xl bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 w-full max-w-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors"
               value={filterMacro}
               onChange={(e) => setFilterMacro(e.target.value)}
             >
@@ -120,47 +122,49 @@ export function Home() {
 
         {searchLoading && (
           <div className="text-center py-20">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-            <p className="text-gray-600 mt-4">Buscando clima...</p>
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-200 dark:border-blue-800 border-t-blue-600 dark:border-t-blue-400"></div>
+            <p className="text-slate-600 dark:text-slate-400 mt-4">Buscando clima...</p>
           </div>
         )}
 
         {searchError && (
-          <div className="text-center py-20 text-red-500">
+          <div className="text-center py-20 text-red-500 dark:text-red-400">
             <p className="text-xl">{searchError}</p>
           </div>
         )}
 
         {currentWeather && !searchLoading && !searchError ? (
-          <div className="mt-8">
+          <div className="mt-8 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
             <WeatherCard weather={currentWeather} />
           </div>
         ) : loadingCities ? (
           <div className="text-center py-20">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-            <p className="text-gray-600 mt-4">Carregando clima das cidades...</p>
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-200 dark:border-blue-800 border-t-blue-600 dark:border-t-blue-400"></div>
+            <p className="text-slate-600 dark:text-slate-400 mt-4">Carregando clima das cidades...</p>
           </div>
         ) : citiesError ? (
-          <div className="text-center py-20 text-red-500">
+          <div className="text-center py-20 text-red-500 dark:text-red-400">
             <p className="text-xl">{citiesError}</p>
           </div>
         ) : filteredCitiesWeather.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
             {filteredCitiesWeather.map((weather, index) => (
-              <WeatherCard
+              <div
                 key={`${weather.name}-${weather.coord?.lat ?? ''}-${weather.coord?.lon ?? ''}-${index}`}
-                weather={weather}
-              />
+                className="animate-fade-in-up"
+                style={{ animationDelay: `${0.1 * (index % 8)}s` }}
+              >
+                <WeatherCard weather={weather} />
+              </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-20">
-            <CloudRain className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500 text-xl">Nenhum dado de clima disponível ou nenhuma cidade nesta macro-região.</p>
+          <div className="text-center py-20 animate-fade-in-up">
+            <CloudRain className="w-16 h-16 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
+            <p className="text-slate-500 dark:text-slate-400 text-xl">Nenhum dado de clima disponível ou nenhuma cidade nesta macro-região.</p>
           </div>
         )}
       </div>
-
     </div>
   );
 }

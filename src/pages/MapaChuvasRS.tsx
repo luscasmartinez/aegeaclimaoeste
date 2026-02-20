@@ -27,21 +27,21 @@ function MapResizeHandler() {
 /** Legenda de intensidade da camada de precipitação (OpenWeather) */
 function LegendaChuva() {
   const items = [
-    { cor: 'bg-blue-200', label: 'Leve' },
-    { cor: 'bg-blue-500', label: 'Moderada' },
-    { cor: 'bg-blue-800', label: 'Forte' },
+    { cor: 'bg-blue-200 dark:bg-blue-800', label: 'Leve' },
+    { cor: 'bg-blue-500 dark:bg-blue-600', label: 'Moderada' },
+    { cor: 'bg-blue-800 dark:bg-blue-900', label: 'Forte' },
   ];
   return (
-    <div className="bg-white/95 backdrop-blur rounded-lg shadow-md p-3 text-sm">
-      <div className="flex items-center gap-2 mb-2 font-semibold text-gray-700">
-        <Droplets className="w-4 h-4 text-blue-600" />
+    <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 text-sm">
+      <div className="flex items-center gap-2 mb-3 font-semibold text-slate-700 dark:text-slate-300">
+        <Droplets className="w-4 h-4 text-blue-600 dark:text-blue-400" />
         Intensidade
       </div>
-      <ul className="space-y-1.5">
+      <ul className="space-y-2">
         {items.map(({ cor, label }) => (
           <li key={label} className="flex items-center gap-2">
             <span className={`w-4 h-4 rounded ${cor}`} />
-            <span className="text-gray-600">{label}</span>
+            <span className="text-slate-600 dark:text-slate-400">{label}</span>
           </li>
         ))}
       </ul>
@@ -62,9 +62,9 @@ function ControlesMapa({
   onOpacidadeChange: (v: number) => void;
 }) {
   return (
-    <div className="bg-white/95 backdrop-blur rounded-lg shadow-md p-4 space-y-4">
-      <div className="flex items-center gap-2 font-semibold text-gray-700">
-        <Layers className="w-4 h-4 text-blue-600" />
+    <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 space-y-4">
+      <div className="flex items-center gap-2 font-semibold text-slate-700 dark:text-slate-300">
+        <Layers className="w-4 h-4 text-blue-600 dark:text-blue-400" />
         Camadas
       </div>
       <label className="flex items-center gap-3 cursor-pointer">
@@ -72,13 +72,13 @@ function ControlesMapa({
           type="checkbox"
           checked={chuvaAtiva}
           onChange={(e) => onChuvaChange(e.target.checked)}
-          className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-blue-600 dark:text-blue-400 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-slate-700"
         />
-        <span className="text-gray-700">Camada de chuva (precipitação)</span>
+        <span className="text-slate-700 dark:text-slate-300">Camada de chuva (precipitação)</span>
       </label>
       {chuvaAtiva && (
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-1">
+          <label className="block text-slate-700 dark:text-slate-300 text-sm font-medium mb-2">
             Opacidade: {Math.round(opacidade * 100)}%
           </label>
           <input
@@ -88,7 +88,7 @@ function ControlesMapa({
             step={0.05}
             value={opacidade}
             onChange={(e) => onOpacidadeChange(Number(e.target.value))}
-            className="w-full h-2 rounded-lg appearance-none bg-blue-100 accent-blue-600"
+            className="w-full h-2 rounded-lg appearance-none bg-blue-100 dark:bg-blue-900 accent-blue-600 dark:accent-blue-400"
           />
         </div>
       )}
@@ -113,26 +113,26 @@ export function MapaChuvasRS() {
   const semChave = !apiKey;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 flex flex-col">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col transition-colors">
       <Navbar />
 
       <div className="container mx-auto px-4 py-4 flex-1 flex flex-col">
-        <header className="text-center mb-4">
+        <header className="text-center mb-6 animate-fade-in-up">
           <div className="flex items-center justify-center gap-3 mb-2">
-            <CloudRain className="w-10 h-10 text-blue-600" />
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
+            <CloudRain className="w-10 h-10 text-blue-600 dark:text-blue-400" />
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-100">
               Mapa de Chuvas – RS
             </h1>
           </div>
-          <p className="text-gray-600">
+          <p className="text-slate-600 dark:text-slate-400">
             Precipitação em tempo quase real. Ative/desative a camada e ajuste a opacidade.
           </p>
         </header>
 
         {semChave && (
-          <div className="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-amber-800 text-sm">
-            Configure <code className="bg-amber-100 px-1 rounded">VITE_OPENWEATHER_API_KEY</code> no
-            arquivo <code className="bg-amber-100 px-1 rounded">.env</code> para exibir a camada de
+          <div className="mb-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-2xl text-amber-800 dark:text-amber-300 text-sm animate-fade-in-up">
+            Configure <code className="bg-amber-100 dark:bg-amber-900/40 px-1 rounded">VITE_OPENWEATHER_API_KEY</code> no
+            arquivo <code className="bg-amber-100 dark:bg-amber-900/40 px-1 rounded">.env</code> para exibir a camada de
             chuva.
           </div>
         )}
@@ -148,7 +148,7 @@ export function MapaChuvasRS() {
             {chuvaAtiva && <LegendaChuva />}
           </aside>
 
-          <main className="flex-1 min-h-[400px] lg:min-h-0 rounded-xl overflow-hidden border border-blue-200 shadow-lg order-1 lg:order-2">
+          <main className="flex-1 min-h-[400px] lg:min-h-0 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm order-1 lg:order-2">
             <MapContainer
               center={RS_CENTER}
               zoom={DEFAULT_ZOOM}

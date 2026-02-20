@@ -25,13 +25,13 @@ function formatCityName(name: string): string {
 
 function HolidayBadge({ type }: { type: Holiday['type'] }) {
   const styles = {
-    nacional: 'bg-blue-100 text-blue-800',
-    estadual: 'bg-green-100 text-green-800',
-    municipal: 'bg-amber-100 text-amber-800',
+    nacional: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
+    estadual: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
+    municipal: 'bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200',
   };
   const labels = { nacional: 'Nacional', estadual: 'RS', municipal: 'Municipal' };
   return (
-    <span className={`px-2 py-0.5 rounded text-xs font-medium ${styles[type]}`}>
+    <span className={`px-2 py-0.5 rounded-xl text-xs font-medium ${styles[type]}`}>
       {labels[type]}
     </span>
   );
@@ -86,29 +86,29 @@ export function CalendarioFeriados() {
   }, [holidays]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors">
       <Navbar />
 
       <div className="container mx-auto px-4 py-8">
-        <header className="text-center mb-8">
+        <header className="text-center mb-8 animate-fade-in-up">
           <div className="flex items-center justify-center gap-3 mb-2">
-            <Calendar className="w-10 h-10 text-blue-600" />
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
+            <Calendar className="w-10 h-10 text-blue-600 dark:text-blue-400" />
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-100">
               Calendário de Feriados
             </h1>
           </div>
-          <p className="text-gray-600">
+          <p className="text-slate-600 dark:text-slate-400">
             Feriados nacionais, estaduais (RS) e municipais das cidades da região
           </p>
         </header>
 
-        <div className="flex flex-col sm:flex-row gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row gap-4 mb-8 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Cidade</label>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Cidade</label>
             <select
               value={selectedCity}
               onChange={(e) => setSelectedCity(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-2xl bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none transition-colors"
             >
               <option value="all">Todas as cidades (feriados gerais)</option>
               {ALLOWED_CITIES.map((city) => (
@@ -119,11 +119,11 @@ export function CalendarioFeriados() {
             </select>
           </div>
           <div className="w-full sm:w-40">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Ano</label>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Ano</label>
             <select
               value={selectedYear}
               onChange={(e) => setSelectedYear(Number(e.target.value))}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-2xl bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none transition-colors"
             >
               {YEARS.map((y) => (
                 <option key={y} value={y}>
@@ -134,22 +134,22 @@ export function CalendarioFeriados() {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-md border border-blue-100 overflow-hidden">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
           {groupedByMonth.length === 0 ? (
-            <div className="p-12 text-center text-gray-500">
-              <MapPin className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+            <div className="p-12 text-center text-slate-500 dark:text-slate-400">
+              <MapPin className="w-12 h-12 mx-auto mb-4 text-slate-300 dark:text-slate-600" />
               <p>Nenhum feriado encontrado para os filtros selecionados.</p>
             </div>
           ) : (
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-slate-100 dark:divide-slate-700">
               {groupedByMonth.map(({ month, list }, groupIndex) => (
                 <div key={month} className="p-6">
-                  <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                    <Calendar className="w-5 h-5 text-blue-600" />
+                  <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                     {month}
                   </h2>
                   {groupIndex === 0 && selectedCity === 'all' && (
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 py-2 mb-1 text-xs font-medium text-gray-500 uppercase tracking-wide border-b border-gray-100">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 py-2 mb-1 text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide border-b border-slate-100 dark:border-slate-700">
                       <span className="w-14 shrink-0">Data</span>
                       <span className="flex-1 min-w-0">Nome</span>
                       <span className="shrink-0 w-24 sm:w-32">Onde é feriado</span>
@@ -160,13 +160,13 @@ export function CalendarioFeriados() {
                     {list.map((h, i) => (
                       <li
                         key={`${h.date}-${h.title}-${h.city ?? ''}-${i}`}
-                        className="flex flex-wrap items-center gap-2 sm:gap-4 py-2 border-b border-gray-50 last:border-0"
+                        className="flex flex-wrap items-center gap-2 sm:gap-4 py-2 border-b border-slate-50 dark:border-slate-700 last:border-0"
                       >
-                        <span className="font-mono font-semibold text-gray-700 w-14 shrink-0">
+                        <span className="font-mono font-semibold text-slate-700 dark:text-slate-300 w-14 shrink-0">
                           {h.date}
                         </span>
-                        <span className="text-gray-800 flex-1 min-w-0">{h.title}</span>
-                        <span className="text-gray-600 text-sm shrink-0" title="Onde é feriado">
+                        <span className="text-slate-900 dark:text-slate-100 flex-1 min-w-0">{h.title}</span>
+                        <span className="text-slate-600 dark:text-slate-400 text-sm shrink-0" title="Onde é feriado">
                           {h.type === 'nacional'
                             ? 'Brasil'
                             : h.type === 'estadual'
@@ -185,7 +185,7 @@ export function CalendarioFeriados() {
           )}
         </div>
 
-        <p className="mt-6 text-sm text-gray-500 text-center">
+        <p className="mt-6 text-sm text-slate-500 dark:text-slate-400 text-center">
           Feriados municipais referem-se ao aniversário do município. Consulte a prefeitura para
           confirmar datas e pontos facultativos.
         </p>
