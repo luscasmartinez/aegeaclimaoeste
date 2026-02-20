@@ -60,24 +60,24 @@ export function HistoricoClima2025() {
   }, [city, year, loadWeather]);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50">
       <Navbar />
 
       <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-10 animate-fade-in-up">
+        <div className="text-center mb-10">
           <div className="flex items-center justify-center gap-3 mb-3">
-            <BarChart3 className="w-10 h-10 text-blue-600 dark:text-blue-400" />
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-100">
+            <BarChart3 className="w-10 h-10 text-blue-600" />
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
               Histórico Climático
             </h1>
           </div>
-          <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+          <p className="text-gray-600 max-w-2xl mx-auto">
             Consulte dados climáticos históricos de qualquer cidade para o ano selecionado, com
             gráficos comparativos mês a mês. Dados via Open-Meteo (API gratuita).
           </p>
         </div>
 
-        <div className="max-w-2xl mx-auto mb-6 space-y-4 animate-fade-in-up">
+        <div className="max-w-2xl mx-auto mb-6 space-y-4">
           <SearchBar onSelectCity={handleCitySelect} disabled={loading} />
           <YearSelector
             value={year}
@@ -94,18 +94,16 @@ export function HistoricoClima2025() {
 
         {!loading && !error && city && stats && (
           <div className="space-y-8">
-            <div className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-              <CityInfo city={city} year={stats.year} />
-            </div>
+            <CityInfo city={city} year={stats.year} />
 
-            <section className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-4">
+            <section>
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 Resumo do ano {stats.year}
               </h2>
               <StatsCards stats={stats} />
             </section>
 
-            <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+            <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <TemperatureChart data={stats.monthlyData} />
               <RainfallChart data={stats.monthlyData} />
             </section>
@@ -113,8 +111,8 @@ export function HistoricoClima2025() {
         )}
 
         {!loading && !error && !city && (
-          <div className="text-center py-16 text-slate-500 dark:text-slate-400 animate-fade-in-up">
-            <BarChart3 className="w-16 h-16 mx-auto mb-4 text-slate-300 dark:text-slate-600" />
+          <div className="text-center py-16 text-gray-500">
+            <BarChart3 className="w-16 h-16 mx-auto mb-4 text-gray-300" />
             <p className="text-lg">
               Digite o nome de uma cidade, selecione o ano e os dados serão carregados automaticamente.
             </p>

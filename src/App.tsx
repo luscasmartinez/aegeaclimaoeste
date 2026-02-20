@@ -12,28 +12,26 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
   return (
-    <ThemeProvider>
-      <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/mapa-chuvas-rs" element={<MapaChuvasRS />} />
-            <Route path="/calendario-feriados" element={<CalendarioFeriados />} />
-            <Route path="/historico-2025" element={<HistoricoClima2025 />} />
-            <Route path="/forecast/:city" element={<ForecastPage />} />
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute>
-                  <Admin />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
-    </ThemeProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/mapa-chuvas-rs" element={<MapaChuvasRS />} />
+          <Route path="/calendario-feriados" element={<CalendarioFeriados />} />
+          <Route path="/historico-2025" element={<HistoricoClima2025 />} />
+          <Route path="/forecast/:city" element={<ForecastPage />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <Admin />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 

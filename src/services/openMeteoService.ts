@@ -92,7 +92,7 @@ export async function fetchArchiveYear(
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     if (err.error && err.reason) throw new Error(err.reason);
-    throw new Error(`Erro ao buscar dados históricos de ${year} (${res.status}).`);
+    throw new Error(`Erro ao buscar dados históricos (${res.status}).`);
   }
 
   const data = await res.json();
@@ -175,4 +175,13 @@ export async function fetchArchiveYear(
     rainiestMonth,
     totalPrecipitation: Math.round(totalPrecipitation * 10) / 10,
   };
+}
+
+/** Busca dados climáticos históricos diários para 2025 (Open-Meteo Archive). */
+export async function fetchArchive2025(
+  latitude: number,
+  longitude: number,
+  timezone: string
+): Promise<YearlyStats> {
+  return fetchArchiveYear(latitude, longitude, timezone, 2025);
 }
